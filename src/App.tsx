@@ -1,17 +1,17 @@
-import React, { useState } from "react"
 import {
   Button,
-  Heading,
-  Stack,
-  Input,
   FormControl,
+  FormErrorMessage,
   FormLabel,
+  Heading,
+  Input,
+  Stack,
   VStack,
   useColorModeValue,
-  FormErrorMessage,
 } from "@chakra-ui/react"
-import QRCode from "qrcode.react"
 import { useFormik } from "formik"
+import QRCode from "qrcode.react"
+import React, { useState } from "react"
 import * as yup from "yup"
 
 import Menu from "./components/menu"
@@ -35,6 +35,13 @@ const App: React.FC = () => {
       setDatos({ color: value.color, url: value.url })
     },
   })
+  const dowloadImage = () => {
+    let img = document.getElementById("qr") as HTMLCanvasElement
+    let link = document.createElement("a")
+    link.download = "qr.png"
+    link.href = img.toDataURL()
+    link.click()
+  }
 
   return (
     <>
@@ -78,6 +85,10 @@ const App: React.FC = () => {
               </Stack>
               <FormErrorMessage>{formik.errors.url}</FormErrorMessage>
             </FormControl>
+
+            <Button colorScheme={colorButton} mt={2} onClick={dowloadImage}>
+              Descargar imagen
+            </Button>
           </form>
         </VStack>
       </Stack>
